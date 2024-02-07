@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.electronics_store.entity.Customer;
@@ -32,11 +33,12 @@ public class AuthServiceImpl implements AuthService{
 	private CustomerRepository customerRepo;
 	private SellerRepository sellerRepo;
 	private ResponseStructure<UserResponse> structure;
+	private PasswordEncoder passwordEncoder;
 
 	public <T extends User> T mapToRespective(UserRequest userRequest)
 	{
 		User user=null;
-
+		
 		switch ( UserRole.valueOf(userRequest.getUserRole().toUpperCase()) ) {
 		case SELLER -> {user = new Seller();}
 		case CUSTOMER -> {user = new Customer();}
@@ -44,7 +46,7 @@ public class AuthServiceImpl implements AuthService{
 
 		user.setUserName(userRequest.getUserEmail().split("@")[0].toString());
 		user.setUserEmail(userRequest.getUserEmail());
-		user.setUserPassword(userRequest.getUserPassword());
+		user.setUserPassword(passwordEncoder.encode(userRequest.getUserPassword()));
 		user.setUserRole(UserRole.valueOf(userRequest.getUserRole().toUpperCase()));
 		user.setDeleted(false);
 		user.setEmailVerified(false);
