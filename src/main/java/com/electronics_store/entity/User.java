@@ -3,6 +3,8 @@ package com.electronics_store.entity;
 import com.electronics_store.enums.UserRole;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,7 +35,10 @@ public class User {
 	private String userName;
 	private String userEmail;
 	private String userPassword;
+	
+	@Enumerated(EnumType.STRING)
 	private UserRole userRole;
+	
 	private boolean isEmailVerified;
 	private boolean isDeleted;
 
