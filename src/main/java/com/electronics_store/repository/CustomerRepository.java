@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.electronics_store.entity.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Integer,Customer> {
+public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 
 }
