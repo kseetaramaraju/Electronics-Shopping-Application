@@ -14,6 +14,7 @@ import com.electronics_store.responsedto.UserResponse;
 import com.electronics_store.service.AuthService;
 import com.electronics_store.util.ResponseStructure;
 
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -23,7 +24,7 @@ public class AuthController {
 	private AuthService authService;
 	
 	@PostMapping("/register")
-	public ResponseEntity<ResponseStructure<UserResponse>> register(@RequestBody @Valid UserRequest userRequest)
+	public ResponseEntity<ResponseStructure<UserResponse>> register(@RequestBody @Valid UserRequest userRequest) throws MessagingException
 	{
 		return authService.register(userRequest);
 	}
