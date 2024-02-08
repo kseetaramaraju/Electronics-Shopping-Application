@@ -5,6 +5,9 @@ import java.util.Random;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +29,12 @@ import com.electronics_store.requestdto.OtpModel;
 import com.electronics_store.requestdto.UserRequest;
 import com.electronics_store.responsedto.UserResponse;
 import com.electronics_store.service.AuthService;
+import com.electronics_store.util.MessageStructure;
 import com.electronics_store.util.ResponseEntityProxy;
 import com.electronics_store.util.ResponseStructure;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -42,7 +48,7 @@ public class AuthServiceImpl implements AuthService{
 	private PasswordEncoder passwordEncoder;
     private CacheStore<String> otpcachestore;
     private CacheStore<User> usercachestore;
-	
+	private JavaMailSender javaMailSender;
 	
 	
 	public <T extends User> T mapToRespective(UserRequest userRequest)
@@ -138,6 +144,21 @@ public class AuthServiceImpl implements AuthService{
 		
 	}
 
+	@Async
+	private void sendMail(MessageStructure message) throws MessagingException
+	{
+		MimeMessage mimemessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper=new MimeMessageHelper(mimemessage,true);
+		
+		helper.setTo(message.getTo());
+		helper.setSubject(message.getSubject());
+		helper.setSentDate(message.getSendDate());
+		helper.setText(message.getText());
+		
+		javaMailSender.send(mimemessage);
+		
+	}
+	
   private String generateOTP()
   {
 	  return String.valueOf(new Random().nextInt(100000,999999));
