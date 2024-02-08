@@ -1,6 +1,5 @@
 package com.electronics_store.serviceImpl;
 
-import java.util.EnumSet;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ import com.electronics_store.service.AuthService;
 import com.electronics_store.util.ResponseEntityProxy;
 import com.electronics_store.util.ResponseStructure;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @Service
