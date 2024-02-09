@@ -44,7 +44,7 @@ public class SpringConfig {
 		return httpSecurity.csrf( csrf-> csrf.disable() )
 				  .authorizeHttpRequests( auth -> auth.requestMatchers("/**").permitAll()
 						  .anyRequest().authenticated() )
-				  .formLogin(Customizer.withDefaults())
+				  .httpBasic(Customizer.withDefaults())
 				  .build();
 	}
 	
